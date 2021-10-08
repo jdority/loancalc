@@ -21,16 +21,36 @@ export default class CalculatorInLwc extends LightningElement {
 
     calculate() {
         this.interestrate = this.interestNumber/100;
-        this.monthlyrate = this.interestrate/12;
-
-        
-        this.payment = this.monthlyrate;
-        //this.payment = this.principalNumber * (monthlyrate/(1-Math.pow(1+monthlyrate, -1)));
-        //this.payment = this.principalNumber * (monthlyrate/(1-Math.pow(1+monthlyrate, -monthsNumber)));
-            
-   
-       this.resultValue = this.payment;
+        let payments = this.amortize(this.principalNumber,this.interestrate,this.monthsNumber);
+        console.log(payments);
        
     }
+
+    amortize(balance, interestRate, terms) {
+        let monthlyRate = interestRate/12;
+        //Calculate the payment
+        let payment = balance * (monthlyRate/(1-Math.pow(1+monthlyRate, -terms)));
+                
+        let paymentList = [];
+        for (var count = 0; count < terms; ++count)	{ 
+            let paymentItem = {};
+            
+                //in-loop interest amount holder
+                let interest = 0;
+                let paymentInterest = balance * monthlyRate;
+            let monthlyPrincipal = payment - interest;
+            
+            paymentItem.number = count + 1;
+            paymentItem.payment = payment.toFixed(2);
+            paymentItem.balance = balance.toFixed(2);  
+                paymentItem.interest = paymentInterest.toFixed(2);
+            paymentItem.principal = (payment - paymentInterest).toFixed(2);
+            paymentList.push(paymentItem);
+            
+                //update the balance for each loop iteration
+                balance = balance - monthlyPrincipal;		
+        }
+        return paymentList;
+      }
 
 }
