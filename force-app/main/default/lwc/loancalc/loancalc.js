@@ -4,6 +4,10 @@ export default class CalculatorInLwc extends LightningElement {
     @track interestNumber;
     @track monthsNumber;
     resultValue;
+    interestrate;
+    monthlyrate;
+    payment;
+
     handleNumberPChange(event) {
         this.principalNumber = parseInt(event.target.value);
     }
@@ -15,19 +19,18 @@ export default class CalculatorInLwc extends LightningElement {
     }
 
 
+    calculate() {
+        this.interestrate = this.interestNumber/100;
+        this.monthlyrate = this.interestrate/12;
 
+        
+        this.payment = this.monthlyrate;
+        //this.payment = this.principalNumber * (monthlyrate/(1-Math.pow(1+monthlyrate, -1)));
+        //this.payment = this.principalNumber * (monthlyrate/(1-Math.pow(1+monthlyrate, -monthsNumber)));
+            
+   
+       this.resultValue = this.payment;
+       
+    }
 
-
-    addition() {
-        this.resultValue = parseInt(this.principalNumber) + parseInt(this.interestNumber);
-    }
-    multification() {
-        this.resultValue = this.principalNumber * this.interestNumber;
-    }
-    subtraction() {
-        this.resultValue = this.principalNumber - this.interestNumber;
-    }
-    division() {
-        this.resultValue = this.principalNumber / this.interestNumber;
-    }
 }
