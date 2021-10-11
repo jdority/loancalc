@@ -5,11 +5,11 @@ export default class CalculatorInLwc extends LightningElement {
     @track interestNumber;
     @track monthsNumber;
 
-    @api keyField = "number";
-    @api rows = [];
-    @api columns = [
+    @track keyField = "number";
+    @track rows = [];
+    @track columns = [
             {
-                label: 'Payment Number',
+                label: 'Payment #',
                 fieldName: 'number',
                 type: 'number'
             },
@@ -85,7 +85,12 @@ export default class CalculatorInLwc extends LightningElement {
             paymentItem.balance = balance.toFixed(2);  
             paymentItem.interest = paymentInterest.toFixed(2);
             paymentItem.principal = (payment - paymentInterest).toFixed(2);
-            paymentList.push(paymentItem);
+            paymentList.push({number: paymentItem.number, 
+                              payment: paymentItem.payment,
+                              balance: paymentItem.balance,
+                              interest: paymentItem.interest,
+                              principal: paymentItem.principal
+            });
             
             //update the balance for each loop iteration
             balance = balance - monthlyPrincipal;	
