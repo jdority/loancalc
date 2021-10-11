@@ -1,3 +1,4 @@
+<!-- sldsValidatorIgnore -->
 <template>  
     <div class="slds-box slds-theme_shade">  
      <lightning-input type="number" name="principal" label="Principal" onchange={handleNumberPChange} value={principleNumber}></lightning-input>  
@@ -11,4 +12,7 @@
     <div class="slds-box slds-theme_shade">  
      <lightning-button label="Calculate" onclick={calculate}> </lightning-button>  
     </div>  
+    <div class="slds-var-m-around_medium" style="height: 500px">
+      <lightning-datatable key-field={keyField} columns={columns} data={rows} hide-checkbox-column></lightning-datatable>
+   </div>
  </template>  
