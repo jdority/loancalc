@@ -5,11 +5,12 @@ export default class CalculatorInLwc extends LightningElement {
     @track interestNumber;
     @track monthsNumber;
     @track totalPayment;
+    @track totalInterest;
     @api keyField = "number";
     @api rows = [];
     @api columns = [
             {
-                label: 'Payment Number',
+                label: 'Payment #',
                 fieldName: 'number',
                 type: 'number'
             },
@@ -19,7 +20,7 @@ export default class CalculatorInLwc extends LightningElement {
                 type: 'currency'
             },
             {
-                label: 'Payment', 
+                label: 'Payment Amount', 
                 fieldName: 'payment',
                 type: 'currency'
             },
@@ -57,6 +58,7 @@ export default class CalculatorInLwc extends LightningElement {
         let result = this.amortize(this.principalNumber,this.interestrate,this.monthsNumber);
         let payments = result.paymentList;
         this.totalPayment=result.totalPayment;
+        this.totalInterest=result.totalInterest;
 
         console.log(payments);
         console.log('Eat Turkey');
@@ -90,6 +92,7 @@ export default class CalculatorInLwc extends LightningElement {
             paymentItem.balance = balance.toFixed(2);  
             paymentItem.interest = paymentInterest.toFixed(2);
             paymentItem.principal = (payment - paymentInterest).toFixed(2);
+            paymentItem.principalText=paymentItem.principal;
             paymentList.push(paymentItem);
             
             //update the balance for each loop iteration
