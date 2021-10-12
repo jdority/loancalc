@@ -1,18 +1,18 @@
 <!-- sldsValidatorIgnore -->
 <template>  
-    <div class="slds-box slds-theme_shade">  
-     <lightning-input type="number" name="principal" label="Principal" onchange={handleNumberPChange} value={principleNumber}></lightning-input>  
-     <lightning-input type="number" name="interest" step="0.001" label="Interest Rate" onchange={handleNumberIChange} value={interestNumber}></lightning-input>
-     <lightning-input type="number" name="months" label="Number of Months" onchange={handleNumberMChange} value={monthsNumber}></lightning-input>
-   </div>  
-   <div class="slds-box slds-theme_shade">  
-     <b>Output value is : </b>  
-      <P>{resultValue}</p>  
-   </div>  
-    <div class="slds-box slds-theme_shade">  
-     <lightning-button label="Calculate" onclick={calculate}> </lightning-button>  
-    </div>  
-    <div class="slds-scrollable_y" style="overflow-y: auto; max-height: 300px">
-      <lightning-datatable data={rows} columns={columns} key-field={keyField} hide-checkbox-column></lightning-datatable>
-   </div>
- </template>  
+  <div class="slds-box slds-theme_shade">  
+   <lightning-input type="number" name="principal" label="Principal" onchange={handleNumberPChange} value={principleNumber}></lightning-input>  
+   <lightning-input type="number" name="interest" step="0.001" label="Interest Rate" onchange={handleNumberIChange} value={interestNumber}></lightning-input>
+   <lightning-input type="number" name="months" label="Number of Months" onchange={handleNumberMChange} value={monthsNumber}></lightning-input>
+ </div>  
+ <div class="slds-box slds-theme_shade">  
+   <b>Total Payments : </b>  
+   <p><lightning-formatted-number value={totalPayment} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+ </div>  
+  <div class="slds-box slds-theme_shade">  
+   <lightning-button label="Calculate" onclick={calculate}> </lightning-button>  
+  </div>  
+  <div class="slds-var-m-around_medium" style="height: 500px">
+    <lightning-datatable key-field={keyField} columns={columns} data={rows} hide-checkbox-column></lightning-datatable>
+ </div>
+</template> 

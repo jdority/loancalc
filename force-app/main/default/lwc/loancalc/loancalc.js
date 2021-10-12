@@ -4,12 +4,12 @@ export default class CalculatorInLwc extends LightningElement {
     @track principalNumber;
     @track interestNumber;
     @track monthsNumber;
-
-    @track keyField = "number";
-    @track rows = [];
-    @track columns = [
+    @track totalPayment;
+    @api keyField = "number";
+    @api rows = [];
+    @api columns = [
             {
-                label: 'Payment #',
+                label: 'Payment Number',
                 fieldName: 'number',
                 type: 'number'
             },
@@ -54,7 +54,10 @@ export default class CalculatorInLwc extends LightningElement {
 
     calculate() {
         this.interestrate = this.interestNumber/100;
-        let payments = this.amortize(this.principalNumber,this.interestrate,this.monthsNumber);
+        let result = this.amortize(this.principalNumber,this.interestrate,this.monthsNumber);
+        let payments = result.paymentList;
+        this.totalPayment=result.totalPayment;
+
         console.log(payments);
         console.log('Eat Turkey');
  
@@ -64,6 +67,9 @@ export default class CalculatorInLwc extends LightningElement {
     }
 
     amortize(balance, interestRate, terms) {
+
+        let result={};
+        result.loanAmount=balance;
         let monthlyRate = interestRate/12;
         //Calculate the payment
         let payment = balance * (monthlyRate/(1-Math.pow(1+monthlyRate, -terms)));
@@ -79,24 +85,22 @@ export default class CalculatorInLwc extends LightningElement {
             let paymentInterest = balance * monthlyRate;
             monthlyPrincipal = payment - paymentInterest; //fixed (was interest)
             
-            
             paymentItem.number = count + 1;
             paymentItem.payment = payment.toFixed(2);
             paymentItem.balance = balance.toFixed(2);  
             paymentItem.interest = paymentInterest.toFixed(2);
             paymentItem.principal = (payment - paymentInterest).toFixed(2);
-            paymentList.push({number: paymentItem.number, 
-                              payment: paymentItem.payment,
-                              balance: paymentItem.balance,
-                              interest: paymentItem.interest,
-                              principal: paymentItem.principal
-            });
+            paymentList.push(paymentItem);
             
             //update the balance for each loop iteration
             balance = balance - monthlyPrincipal;	
             
         }
-        return paymentList;
+        result.paymentList=paymentList;
+        result.totalPayment=(payment*terms).toFixed(2);
+        result.totalInterest=(result.totalPayment-result.loanAmount).toFixed(2);
+        return result;
       }
 
 }
+
